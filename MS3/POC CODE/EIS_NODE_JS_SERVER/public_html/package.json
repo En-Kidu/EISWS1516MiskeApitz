@@ -1,0 +1,11 @@
+{
+  "name": "node-server",
+  "description": "EIS TEST SERVER",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "amqplib":"*",
+    "body-parser": "^1.8.1"
+  }
+}

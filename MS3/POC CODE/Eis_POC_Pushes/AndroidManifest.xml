@@ -15,9 +15,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.eis_poc_pushes.MainActivity"
+            android:name="com.example.eis_poc.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.example.eis_poc_pushes.PushService"></service>
+        <service android:name="com.example.eis_poc.PushService"></service>
+        <activity android:name="com.example.eis_poc.Poc1RabbitMQ"></activity>
+        <activity android:name="com.example.eis_poc.Poc2PushService"></activity>
+        <activity android:name="com.example.eis_poc.Poc3MySQL"></activity>
     </application>
 
 </manifest>

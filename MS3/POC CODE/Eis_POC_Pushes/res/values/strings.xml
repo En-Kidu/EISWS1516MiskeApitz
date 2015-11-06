@@ -4,6 +4,6 @@
     <string name="app_name">Eis_POC_RabbitMQ</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="local_service_started">started</string>
-	<string name="local_service_stopped">stopt</string>
+    <string name="local_service_started">Service gestartet</string>
+	<string name="local_service_stopped">Serive gestoppt</string>
 </resources>

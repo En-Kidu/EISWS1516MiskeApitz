@@ -52,10 +52,8 @@ public class MessageConsumer extends  IConnectToRabbitMQ{
      {
 
          try {
-        	 Map<String,Object> map1 = new HashMap<String, Object>();
         	 String quequename= "androidclient";
         	 mQueue = mModel.queueDeclare(quequename, true, false, false, null).getQueue();
-             //mQueue = mModel.queueDeclare().getQueue();
              MySubscription = new QueueingConsumer(mModel);
              mModel.basicConsume(mQueue, false, MySubscription);
           } catch (IOException e) {

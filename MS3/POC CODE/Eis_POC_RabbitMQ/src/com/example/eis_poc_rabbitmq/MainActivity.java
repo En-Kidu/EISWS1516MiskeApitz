@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		});
+		
 
 		mOutput = (TextView) findViewById(R.id.nachrichten);
 

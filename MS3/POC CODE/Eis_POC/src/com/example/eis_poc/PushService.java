@@ -1,11 +1,8 @@
 package com.example.eis_poc;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
 import com.example.eis_poc.MessageConsumer.OnReceiveMessageHandler;
 import com.example.eis_poc_rabbitmq.R;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

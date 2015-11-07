@@ -4,7 +4,6 @@ import com.example.eis_poc_rabbitmq.R;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;

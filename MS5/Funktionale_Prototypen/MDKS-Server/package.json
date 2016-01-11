@@ -1,0 +1,23 @@
+{
+  "name": "MDKS-Server",
+  "version": "1.0.0",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "Alex",
+  "contributors": [],
+  "dependencies": {
+    "amqp": "*",
+    "body-parser": "^1.8.1",
+    "express": "*",
+    "mariasql": "*"
+  },
+    "devDependencies": {
+        "mariasql": "*"
+    }
+
+}

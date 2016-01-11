@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MDKS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="css/patient.css" rel="stylesheet" type="text/css"/>
+        <script src="js/libs/jquery-1.11.2.js" type="text/javascript"></script>
+        <script src="js/libs/jquery-ui-1.11.4/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
+        <script src="js/patient.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="div_main">
+            <div id="title">MDKS</div>
+            <div id="div_login_data">
+                <div class="div_text_label">Name:</div><div class="div_text_val" id="div_login_data_name_val">Gerhard Gutenberg</div>
+            </div> 
+            <div id="patient_daten">
+                <div class="div_text_label">Patientenname:</div>
+                <div class="div_text_val" id="patient_daten_name">Hans Zimmer</div>
+                
+                <div class="div_text_label">Station:</div>
+                <div class="div_text_val" id="patient_daten_name">3</div>
+                
+                <div class="div_text_label">Zimmer:</div>
+                <div class="div_text_val" id="patient_daten_name">17</div>
+            </div>
+            
+            <div class="section_title" id="section_title_verordnungen">Verordnungen</div>
+            <section class="patient_section" id="verordnungen">
+                <table id="table_verordnungen">
+                    <tr>
+                        <th>Medikament</th>
+                        <th>Wirkstoff</th>
+                        <th>Art</th>
+                    </tr>
+                    <tr>
+                        <td>Medikament1</td>
+                        <td>Wirkstoff1</td>
+                        <td>Selbstmedikation</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <div class="section_title" id="section_title_anamnese">Medikamenten-Anamnese</div>
+            <section class="patient_section" id="anamnese">
+                
+            </section>
+
+        </div>
+    </body>
+</html>

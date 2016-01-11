@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MDKS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <script src="js/main.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="div_main">
+            <h1>MDKS</h1>
+            <div id="div_login_data">
+                <div id="div_login_data_name">Name:</div><div id="div_login_data_name_val">Gerhard Gutenberg</div>
+            </div>
+            <h3>Patienten:</h3>
+            <div id="div_patient_suchen">
+                
+                <div id="div_patient_anlegen">
+                    <button id="btn_patient_anlegen">Neuer Patient</button>
+                </div>  
+                
+                <table id="table_patient_suchen">
+                    <tr>
+                        <td class="td_patient_suchen_label">Station:</td>
+                        <td><input id="input_patient_suchen_station" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_patient_suchen_label">Zimmer:</td>
+                        <td><input id="input_patient_suchen_zimmer" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_patient_suchen_label">Patientenname:</td>
+                        <td><input id="input_patient_suchen_name" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><button id="btn_patient_suchen" >Suchen</button></td>
+                    </tr>
+                </table> 
+                
+                <table>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Station</th>
+                        <th>Zimmer</th>
+                    </tr>
+                </table>
+                
+            </div>
+
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,37 @@
+body{
+    font-family: sans-serif;
+}
+
+#div_main{
+    background-color: beige;
+    width: 800px;
+    height: 800px;
+    padding: 10px;
+}
+
+#title{
+    background-color: blanchedalmond;
+    font-weight: bold;
+    padding:10px;
+}
+
+#div_login_data{
+    
+}
+
+.div_text_label{
+    
+}
+
+.div_text_val{
+    
+}
+
+table td{
+    padding: 5px;
+}
+
+table th{
+    background-color: burlywood;
+}
+

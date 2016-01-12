@@ -1,12 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_margin="8dp" >
+
+        <TextView
+            android:id="@+id/medlist_uhrzeit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="uhrzeit"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/medlist_station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="station"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_zimmer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="zimmer"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="name"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_vorname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="vorname"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_medikament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="medikament"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_dosierung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="dosierung"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/medlist_einheit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="einheit"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

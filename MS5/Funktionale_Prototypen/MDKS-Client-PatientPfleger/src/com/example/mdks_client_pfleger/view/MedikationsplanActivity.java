@@ -64,13 +64,7 @@ public class MedikationsplanActivity extends Activity {
 				JsonElement obj = mParser.parse(textPlain);
 				JsonArray verordnungen = obj.getAsJsonArray();
 				
-				mPlan = new Medikationsplan();
-				for (int i = 0; i < verordnungen.size(); i++) {
-					JsonObject verordnung = verordnungen.get(i).getAsJsonObject();
-					mVerordnung = new Verordnung();
-					mVerordnung.patient_id = verordnung.get("patient_id").getAsInt();
-					Log.v("patient_id ", verordnung.get("patient_id").toString());
-				}
+				mPlan = new Medikationsplan(verordnungen);
 				
 				Log.v("JSON ", obj.toString());
 				Log.v("JSONARRAY: ",verordnungen.toString());

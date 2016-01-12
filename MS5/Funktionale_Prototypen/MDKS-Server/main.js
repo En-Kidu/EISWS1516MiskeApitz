@@ -228,7 +228,6 @@ function getMedikationsplanForStation(station_id,responsequeue) {
     mysqlconnection.query(query, function (err, rows) {
         if (!err) {
             medikationsPlan =rows;
-            medikationsPlan.push({"routingKey":"get"});
             console.log("JSON : "+JSON.stringify(rows));
             responseGET(medikationsPlan,responsequeue);
         } else {

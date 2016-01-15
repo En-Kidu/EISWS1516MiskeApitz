@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.mdks_client_pfleger.MainActivity" >
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal" />
+
+    <Button
+        android:id="@+id/buttonMedikationsplan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Medikationsplan" />
+
+    <Button
+        android:id="@+id/buttonVisite"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Visite dokumentieren" />
+
+    <Button
+        android:id="@+id/buttonDispenser"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Dispenser befüllen" />
+
+    <Button
+        android:id="@+id/buttonBenachrichtigung"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Benachrichtigungen" />
+
+</LinearLayout>

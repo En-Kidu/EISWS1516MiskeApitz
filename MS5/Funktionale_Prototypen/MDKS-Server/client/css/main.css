@@ -1,0 +1,92 @@
+body{
+    font-family: sans-serif;
+}
+
+#div_main{
+    width: 800px;
+    height: 800px;
+    padding: 5px;
+    margin: 0 auto;
+    border: 5px solid black;
+    border-radius: 5px;
+}
+.btn_img{
+    cursor: pointer;
+    padding-top:5px;
+}
+
+#ph{
+    margin: 20px;
+}
+#login_div{
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    margin: 0 auto;
+    border: 5px solid black;
+    border-radius: 5px;
+}
+
+#title{
+    border-radius: 5px;
+    background-color: black;
+    color:white;
+    font-weight: bold;
+    padding:10px;
+}
+
+#div_login_data{
+    font-size: 10px;
+    float: right;
+    margin-left: 10px;
+}
+
+#div_login_data_name_val{
+    margin-left: 5px;
+}
+
+#patient_daten{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.div_text_label{
+
+}
+
+.div_text_val{
+
+}
+table{
+    width: 100%;
+}
+table td{
+    font-size: 14px;
+    padding: 5px;
+}
+.title_section{
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: black;
+    color:white;
+    font-weight: bold;
+    padding:5px;
+}
+.div_section{
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+table th{
+    font-size: 14px;
+    border-radius: 1px;
+    background-color: black;
+    color:white;
+    padding: 5px;
+}
+
+#table_patient{
+    margin-top: 20px;
+}
+

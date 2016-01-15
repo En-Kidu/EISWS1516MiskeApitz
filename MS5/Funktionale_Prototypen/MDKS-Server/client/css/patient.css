@@ -1,0 +1,34 @@
+#div_login_data{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+.div_text_label{
+    display: inline-block;
+    font-weight: bold;
+}
+.div_text_val{
+    display: inline-block;
+}
+#section_title_verordnungen{
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    
+    font-weight: bold;
+}
+
+#section_title_anamnese{
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+

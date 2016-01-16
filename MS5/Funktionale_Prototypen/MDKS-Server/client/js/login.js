@@ -21,8 +21,6 @@ $(document).ready(function () {
         }).fail(function (e) {
             // hat nicht geklappt
             console.log('Fail');
-        }).always(function() {
-            alert("complete"); 
         });
     });
 });

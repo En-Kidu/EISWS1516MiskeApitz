@@ -17,12 +17,12 @@ function mysqlconnectMDKS() {
 }
 
 // Verbundungsaufbau zur MySQL WEBSERVICE Datenbank
-function mysqlconnectWEBSERVICES() {
+function mysqlconnectWEBSERVICE() {
     return mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'webservice'
+        database: 'mdks'
     });
 }
 
@@ -112,16 +112,78 @@ app.get('/patient/:id', function (req, res) {
         }
     });
     mysqlconnection.end();
-    
-    
+});
 
+app.get('/medikamente', function (req, res) {
+    mysqlconnection = mysqlconnectMDKS();
+    var query = 'SELECT * from medikament';
+    mysqlconnection.query(query, function (err, rows) {
+        if (!err) {
+            console.log(rows);
+            res.writeHead(200, {"Content-Type": 'application/json'});
+            res.end(JSON.stringify(rows));
+        } else {
+            console.log(err);
+        }
+    });
+    mysqlconnection.end();
+});
+
+app.post('/verordnung', function (req, res) {
+    //todo:stringify
+    mysqlconnection = mysqlconnectMDKS();
+    var query = 'INSERT INTO verordnung SET medikament_id = '+req.body.medikament_id+', personal_id = '+req.body.personal_id+', patient_id = '+req.body.patient_id+', station_id = '+req.body.station_id+', applikationszeitpunkt = "'+req.body.applikationszeit+'", selbstverordnung = 0';
+    console.log(query);
+    mysqlconnection.query(query, function (err, rows) {
+        if (!err) {
+            console.log(rows);
+            res.writeHead(200, {"Content-Type": 'application/json'});
+            res.end(JSON.stringify(rows));
+        } else {
+            console.log(err);
+        }
+    });
+    mysqlconnection.end();
+});
+
+app.post('/checkInteraction', function (req, res) {
+    var medikament = req.body.medikamentname;
+    var patientid = req.body.patientid;
+
+    console.log(medikament);
+    console.log(patientid);
+    webserviceconnection = mysqlconnectWEBSERVICE();
+    var query = 'SELECT medikamentname FROM verordnung NATURAL JOIN medikament WHERE patient_id=' + patientid + "";
+    webserviceconnection.query(query, function (err, rows) {
+        if (!err) {
+            console.log(rows);
+            var medikamentliste = rows;
+            var query = 'SELECT interaction,medikamentname FROM medikament WHERE medikamentname="' + medikament + '"';
+            webserviceconnection.query(query, function (err, rows) {
+                if (!err) {
+                    console.log(rows);
+                    var result = checkInteractions(medikamentliste, rows);
+                    console.log(result);
+                    res.writeHead(200, {"Content-Type": 'application/json'});
+                    res.end(JSON.stringify(result));
+                } else {
+                    console.log(err);
+                }
+
+            });
+            webserviceconnection.end();
+        } else {
+            console.log('Error while performing Query.');
+        }
+
+    });
 });
 
 app.post('/patient', function (req, res) {
     var station = req.body.station;
     var zimmer = req.body.zimmer;
     var name = req.body.name;
-    
+
     console.log(req.query.pateint_id);
 
     mysqlconnection = mysqlconnectMDKS();
@@ -201,45 +263,19 @@ function getNahrungsmittelFromWebservice(medikament) {
     return nahrungsmittelList;
 }
 
-// Überprüft die Wirkstoffe zweier Medikamente auf Wechselwirkung
-function checkInteractions(medikament1, medikament2) {
-    var medikament1Data;
-    var medikament2Data;
-    var result = {
-        "medikament1": medikament1,
-        "medikament2": medikament2
-    };
-
-    webserviceconnection = mysqlconnectWEBSERVICE();
-    webserviceconnection.query('SELECT * from medikament WHERE medikament=?', [medikament1], function (err, rows) {
-        if (!err) {
-            medikament1Data = rows;
-        } else {
-            console.log('Error while performing Query.');
+// Überprüft Wechselwirkung
+function checkInteractions(medikamentListe, interactionListe) {
+    var result = [];
+    for (var i = 0; i < medikamentListe.length; i++) {
+        console.log("Interaktion: " + medikamentListe[i].medikamentname + " + " + interactionListe[0].interaction);
+        if (medikamentListe[i].medikamentname == interactionListe[0].interaction) {
+            result.push({"grund": "Bei den Medikamenten " + medikamentListe[i].medikamentname + " und " + interactionListe[0].medikamentname + " liegt eine Wechselwirkung vor!"});
         }
-    });
-    webserviceconnection.query('SELECT * from medikament WHERE medikament=?', [medikament2], function (err, rows) {
-        if (!err) {
-            medikament1Data = rows;
-        } else {
-            console.log('Error while performing Query.');
+        console.log("Gleich: " + medikamentListe[i].medikamentname + " + " + interactionListe[0].medikamentname);
+        if (medikamentListe[i].medikamentname == interactionListe[0].medikamentname) {
+            result.push({"grund": "Das Medikamenten " + interactionListe[0].medikamentname + " wurde bereits verordnet!"});
+            break;
         }
-    });
-    webserviceconnection.end();
-
-    //Liste der Wirkstoffe, die nicht mit diesem Medikament zusammen eingenommen werden dürfen
-    interactionMedikament1Liste = JSON.parse(medikament1Data.interaction);
-
-    for (var i = 0; i < interactionMedikament1Liste.length; i++) {
-        if (interactionMedikament1Liste[i].name == medikament2Data.wirkstoff) {
-            // Medikament1 inkompatibel mit Medikament2
-            result.push({"inkompatibel": medikament2Data.wirkstoff});
-        }
-    }
-
-    // Überprüfen, ob die Medikamente die selben Wirkstoffe haben
-    if (medikament1Data.wirkstoff == medikament2Data.wirkstoff) {
-        result.push({"risiko": "Gleicher Wirkstoff: " + medikament2Data.wirkstoff});
     }
 
     return result;

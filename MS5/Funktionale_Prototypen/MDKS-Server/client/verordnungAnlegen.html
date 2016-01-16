@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="title">Verordnung anlegen</div>
+        <div id="section_verordnung_anlegen" class="div_section">
+            <table>
+                <tr>
+                    <td>
+                        Status
+                    </td>
+                    <td id="td_risiko">Ok</td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Medikament:</label>
+                    </td>
+                    <td>
+                        <input id="verordnung_anlegen_medikament" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Dosierung:</label> 
+                    </td>
+                    <td>
+                        <input id="verordnung_anlegen_dosierung" type="text">
+                    </td>
+                    <td id="td_einheit"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Dauer:</label> 
+                    </td>
+                    <td>
+                        <input id="verordnung_anlegen_dauer" type="text">
+                    </td>
+                </tr>
+                <tr>
+                <tr>
+                    <td>
+                        Applikationszeitpunkt
+                    </td>
+                    <td>
+                        <table id="table_applikationszeit">
+                            <tr>
+                                <th>Uhrzeit</th><th></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input class="verordnung_anlegen_appzeit" type="text">
+                                </td>
+                                <td>
+                                    <img src="icons/ic_add_to_photos_black_24dp.png" class="btn_img btn_appzeit_anlegen" onclick="addAppZeit()">
+                                </td>
+                            </tr>
+                            <tr>
+                            <input id="input_verordnung_montag" class="input_verordnung_day" type="checkbox"> Montag<br>
+                            <input id="input_verordnung_dienstag" class="input_verordnung_day" type="checkbox"> Dienstag<br>
+                            <input id="input_verordnung_mittwoch" class="input_verordnung_day" type="checkbox"> Mittwoch<br>
+                            <input id="input_verordnung_donnerstag" class="input_verordnung_day" type="checkbox"> Donnerstag<br>
+                            <input id="input_verordnung_freitag" class="input_verordnung_day" type="checkbox"> Freitag<br>
+                            <input id="input_verordnung_samstag" class="input_verordnung_day" type="checkbox"> Samstag<br>
+                            <input id="input_verordnung_sonntag" class="input_verordnung_day" type="checkbox"> Sonntag
+                            </tr>
+                        </table>  
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PersonalID 
+                    </td>
+                    <td id="td_personalid"></td>
+                </tr>
+                <tr>
+                    <td>
+                        PatientID 
+                    </td>
+                    <td id="td_patientid"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button id="btn_verordnung_speichern" onclick="checkVerordnung()">Verordnung prüfen</button>
+                        <button id="btn_popup_abbrechen" onclick="hidePopup()">abbrechen</button>
+                    </td>
+                </tr>               
+            </table>
+        </div>
+    </body>
+</html>

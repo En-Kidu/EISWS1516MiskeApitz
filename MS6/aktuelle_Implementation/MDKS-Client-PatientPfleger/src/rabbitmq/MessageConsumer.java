@@ -14,10 +14,8 @@ public class MessageConsumer extends IConnectToRabbitMQ {
 	public Thread thread;
 
 	public MessageConsumer(String server, String exchange, String exchangeType, String queue) {
-
 		super(server, exchange, exchangeType);
 		queuename = queue;
-
 	}
 
 	public interface OnReceiveMessageHandler {
@@ -53,97 +51,96 @@ public class MessageConsumer extends IConnectToRabbitMQ {
 				mQueue = mModel.queueDeclare(queuename, true, false, false, null).getQueue();
 				MySubscription = new QueueingConsumer(mModel);
 				mModel.basicConsume(mQueue, false, MySubscription);
-				
 
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
 			}
-			
-			if (MyExchangeType == "fanout") {			
-				AddBinding("");				
+
+			if (MyExchangeType == "fanout") {
+				AddBinding("");
 			}
 
-			Running = true;		
+			Running = true;
 			mConsumeHandler.post(mConsumeRunner);
-			return true;			
-		}		
-		return false;		
+			return true;
+		}
+		return false;
 	}
 
-	public void AddBinding(String routingKey) {		
-		try {		
-			mModel.queueBind(mQueue, mExchange, routingKey);			
-		} catch (IOException e) {			
-			e.printStackTrace();			
+	public void AddBinding(String routingKey) {
+		try {
+			mModel.queueBind(mQueue, mExchange, routingKey);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void RemoveBinding(String routingKey) {		
-		try {			
-			mModel.queueUnbind(mQueue, mExchange, routingKey);			
-		} catch (IOException e) {		
-			e.printStackTrace();		
+	public void RemoveBinding(String routingKey) {
+		try {
+			mModel.queueUnbind(mQueue, mExchange, routingKey);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void Consume() {	
+	private void Consume() {
 		thread = new Thread() {
 			@Override
-			public void run() {			
-				while (Running) {				
-					QueueingConsumer.Delivery delivery;					
-					try {						
-						delivery = MySubscription.nextDelivery();					
-						mLastMessage = delivery.getBody();
-						Log.v("mLastMessage ", mLastMessage.toString());						
-						mMessageHandler.post(mReturnMessage);						
-						try {							
-							mModel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);							
-						} catch (IOException e) {							
-							e.printStackTrace();							
-						}
-					} catch (InterruptedException ie) {						
-						ie.printStackTrace();						
-					}					
-				}				
-			}			
-		};		
-		thread.start();
-	}
-	
-	private void Consume(final String routingkey) {	
-		thread = new Thread() {
-			@Override
-			public void run() {			
-				while (Running) {				
-					QueueingConsumer.Delivery delivery;					
+			public void run() {
+				while (Running) {
+					QueueingConsumer.Delivery delivery;
 					try {
-						delivery = MySubscription.nextDelivery();					
-						if(delivery.getEnvelope().getRoutingKey().equals(routingkey)){
-							
-						}
+						delivery = MySubscription.nextDelivery();
 						mLastMessage = delivery.getBody();
-						Log.v("mLastMessage ", mLastMessage.toString());						
-						mMessageHandler.post(mReturnMessage);						
-						try {							
-							mModel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);							
-						} catch (IOException e) {							
-							e.printStackTrace();							
+						Log.v("mLastMessage ", mLastMessage.toString());
+						mMessageHandler.post(mReturnMessage);
+						try {
+							mModel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
-					} catch (InterruptedException ie) {						
-						ie.printStackTrace();						
-					}					
-				}				
-			}			
-		};		
+					} catch (InterruptedException ie) {
+						ie.printStackTrace();
+					}
+				}
+			}
+		};
 		thread.start();
 	}
-	
-	
 
-	public void dispose() {		
-		Running = false;		
+	private void Consume(final String routingkey) {
+		thread = new Thread() {
+			@Override
+			public void run() {
+				while (Running) {
+					QueueingConsumer.Delivery delivery;
+					try {
+						delivery = MySubscription.nextDelivery();
+						if (delivery.getEnvelope().getRoutingKey().equals(routingkey)) {
+						}
+
+						mLastMessage = delivery.getBody();
+						Log.v("mLastMessage ", mLastMessage.toString());
+						mMessageHandler.post(mReturnMessage);
+
+						try {
+							mModel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					} catch (InterruptedException ie) {
+						ie.printStackTrace();
+					}
+				}
+			}
+		};
+		thread.start();
 	}
-	
+
+	public void dispose() {
+		Running = false;
+	}
+
 }

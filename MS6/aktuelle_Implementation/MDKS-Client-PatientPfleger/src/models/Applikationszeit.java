@@ -12,15 +12,14 @@ import com.google.gson.JsonParser;
 public class Applikationszeit {
 	public String tag;
 	public List<String> zeiten;
-	
-	public Applikationszeit(JsonObject applikationszeiten){
+
+	public Applikationszeit(JsonObject applikationszeiten) {
 		this.tag = applikationszeiten.get("tag").getAsString();
 		JsonParser mParser = new JsonParser();
-		//JsonElement obj = mParser.parse(applikationszeiten.get("zeiten").getAsString());
-		JsonArray mZeiten = applikationszeiten.get("zeiten").getAsJsonArray();
+		JsonArray mZeiten = applikationszeiten.get("zeiten").getAsJsonArray();		
 		this.zeiten = new ArrayList<String>();
+		
 		for (int i = 0; i < mZeiten.size(); i++) {
-			
 			JsonObject zeit = mZeiten.get(i).getAsJsonObject();
 			this.zeiten.add(zeit.get("zeit").getAsString());
 		}

@@ -42,18 +42,14 @@ public class MedikationsplanActivity extends Activity {
 	private Medikationsplan mPlan;
 	private ListView mListeView;
 	protected static final String ACTION_BROADCAST = "rabbitmq.publish";
-	
-	private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
+	private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
 			if (intent.getAction() == ACTION_BROADCAST) {
-
 				String text = intent.getExtras().getString("publish");
-				//new send().execute("get");
+				new send().execute("get");
 			}
-
 		}
 
 	};
@@ -65,34 +61,34 @@ public class MedikationsplanActivity extends Activity {
 		setTitle("Medikationsplan");
 
 		mParser = new JsonParser();
-
 		mListeView = (ListView) findViewById(R.id.medikationsplan_list);
-
 		mConsumer = new MessageConsumer("10.0.2.2", "amq.topic", "topic", "personal1.get");
-		new consumerconnect().execute();
+		
+		new consumerconnect().execute(); //Consumer connect
+		
 		mConsumer.setOnReceiveMessageHandler(new OnReceiveMessageHandler() {
-
 			public void onReceiveMessage(byte[] message) {
-
+				
+				// Nachricht parsen
 				String text = "";
 				String textPlain = null;
 				textPlain = new String(message);
+				
+				// als JSON parsen und speichern
 				JsonElement obj = mParser.parse(textPlain);
 				JsonArray verordnungen = obj.getAsJsonArray();
-
-				mPlan = new Medikationsplan(verordnungen);
-
 				Log.v("JSON ", obj.toString());
 				Log.v("JSONARRAY: ", verordnungen.toString());
 				Log.v("textPlain ", textPlain);
-
+				
+				// Medikationsplan erstellen, JSON übergeben
+				mPlan = new Medikationsplan(verordnungen);
+				
+				// Medikationsplan anzeigen
 				setPlan(mPlan);
 			}
-
 		});
 		new send().execute("get");
-		
-
 	}
 
 	private void setPlan(Medikationsplan mPlan) {
@@ -100,17 +96,14 @@ public class MedikationsplanActivity extends Activity {
 		// get data from the table by the ListAdapter
 		VerordnungsArrayAdapter adapter = new VerordnungsArrayAdapter(this, R.layout.liste_medikationsplan,
 				mPlan.verordnungTimes, mPlan);
-
 		lw.setAdapter(adapter);
 	}
 
 	private class send extends AsyncTask<String, Void, Void> {
-
 		@Override
 		protected Void doInBackground(String... Message) {
-
 			try {
-
+				// Verbindungsaufbau zu RabbitMQ für ein publish
 				ConnectionFactory factory = new ConnectionFactory();
 				factory.setHost("10.0.2.2");
 				factory.setUsername("test");
@@ -121,8 +114,8 @@ public class MedikationsplanActivity extends Activity {
 				for (int i = 0; i < Message.length; i++) {
 					tempstr += Message[i];
 				}
-
 				if (tempstr.equals("get")) {
+					// Build JSON
 					JsonObject get = new JsonObject();
 					get.addProperty("absender", personalID);
 					get.addProperty("methode", "getMedikationsplanForStation");
@@ -135,7 +128,10 @@ public class MedikationsplanActivity extends Activity {
 					get.add("parameters", parameters);
 					Log.v("GETJSON ", get.toString());
 
+					// Publish auf routing key "get", JSON übergeben
 					channel.basicPublish(EXCHANGE_NAME, "get", null, get.toString().getBytes());
+
+					// Verbindung wieder trennen
 					channel.close();
 					connection.close();
 				}
@@ -147,6 +143,7 @@ public class MedikationsplanActivity extends Activity {
 		}
 	}
 
+	// Verbindungsaufbau des Consumers zu RabbitMQ
 	private class consumerconnect extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... Message) {
@@ -160,7 +157,8 @@ public class MedikationsplanActivity extends Activity {
 		}
 
 	}
-	
+
+	// Verbindung des Consumers trennen zu RabbitMQ
 	private class consumerdisconnect extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... Message) {
@@ -178,7 +176,6 @@ public class MedikationsplanActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		IntentFilter filter = new IntentFilter(ACTION_BROADCAST);
-
 		getApplicationContext().registerReceiver(mBroadcastReceiver, filter);
 	}
 

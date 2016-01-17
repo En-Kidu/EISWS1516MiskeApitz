@@ -25,8 +25,8 @@ public class Verordnung {
 	public String applikationsweg;
 	public boolean selbstverordnung;
 	public List<Applikationszeit> applikationszeit;
-	
-	public Verordnung(JsonObject verordnung){
+
+	public Verordnung(JsonObject verordnung) {
 		this.patient_id = verordnung.get("patient_id").getAsInt();
 		this.station_id = verordnung.get("station_id").getAsInt();
 		this.verordnung_id = verordnung.get("verordnung_id").getAsInt();
@@ -39,16 +39,21 @@ public class Verordnung {
 		this.medikament = verordnung.get("medikamentname").getAsString();
 		this.dosierung = verordnung.get("dosierung").getAsString();
 		this.applikationsweg = verordnung.get("darreichungsform").getAsString();
-		if(verordnung.get("selbstverordnung").getAsInt()==1){
+		if (verordnung.get("selbstverordnung").getAsInt() == 1) {
 			this.selbstverordnung = true;
-		}else{
+		} else {
 			this.selbstverordnung = false;
 		}
 		
+		// Applikationszeiten aus der Verordnung holen und als JSON Array speichern
 		JsonParser mParser = new JsonParser();
 		JsonElement obj = mParser.parse(verordnung.get("applikationszeitpunkt").getAsString());
 		JsonArray applikationszeiten = obj.getAsJsonArray();
+		
+		// Applikationszeit erstellen
 		this.applikationszeit = new ArrayList<Applikationszeit>();
+		
+		// Applikationszeiten in Array speichern
 		for (int i = 0; i < applikationszeiten.size(); i++) {
 			this.applikationszeit.add(new Applikationszeit(applikationszeiten.get(i).getAsJsonObject()));
 		}

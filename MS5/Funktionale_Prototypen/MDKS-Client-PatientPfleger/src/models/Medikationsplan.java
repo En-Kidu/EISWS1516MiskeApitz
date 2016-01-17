@@ -11,31 +11,35 @@ import com.google.gson.JsonObject;
 
 public class Medikationsplan {
 	public int station_id;
-	public List<Verordnung> verordnungen;
-	public List<TimeMap> verordnungTimes;
-	public List<TimeMap> selbstverordnungTimes;
+	public List<Verordnung> verordnungen; // Liste der Verordnungen
+	public List<TimeMap> verordnungTimes; // zeit-map für Verordnungen
+	public List<TimeMap> selbstverordnungTimes; // zeit-map für
+												// selbstverordnungen
 
 	public Medikationsplan(JsonArray verordnungen) {
 		this.verordnungen = new ArrayList<Verordnung>();
+		
 		for (int i = 0; i < verordnungen.size(); i++) {
 			JsonObject verordnung = verordnungen.get(i).getAsJsonObject();
 			this.verordnungen.add(new Verordnung(verordnung));
 		}
+		
 		this.verordnungTimes = makeVerordnungTimeMap();
 	}
 
+	// TimeMap erstellen
 	public List<TimeMap> makeVerordnungTimeMap() {
 		List<Integer> times = new ArrayList<Integer>();
 		List<Integer> ids = new ArrayList<Integer>();
 
 		for (int i = 0; i < this.verordnungen.size(); i++) {
+			
 			if (!this.verordnungen.get(i).selbstverordnung) {
-
-				
-				String currentDay = "Montag"; // TODO: getSystemZeit getTag
+				String currentDay = "Montag"; // TODO: getSystemZeit getTag				
 				for (int j = 0; j < this.verordnungen.get(i).applikationszeit.size(); j++) {
-					String tag = this.verordnungen.get(i).applikationszeit.get(j).tag;
-					if (tag.equals(currentDay)) {
+					String tag = this.verordnungen.get(i).applikationszeit.get(j).tag;					
+
+					if (tag.equals(currentDay)) {						
 						for (int k = 0; k < this.verordnungen.get(i).applikationszeit.get(j).zeiten.size(); k++) {
 							String timeString = this.verordnungen.get(i).applikationszeit.get(j).zeiten.get(k);
 							timeString = timeString.replace(":", "");
@@ -51,8 +55,9 @@ public class Medikationsplan {
 		return sortTimeMap(times, ids);
 	}
 
+	// TimeMap nach Zeit sortieren
 	private List<TimeMap> sortTimeMap(List<Integer> times, List<Integer> ids) {
-		List<TimeMap> map = new ArrayList<TimeMap>();
+		List<TimeMap> map = new ArrayList<TimeMap>();		
 		while (!times.isEmpty()) {
 			int index = 0;
 			int min = times.get(0);
@@ -61,15 +66,14 @@ public class Medikationsplan {
 					index = i;
 				}
 			}
-
 			map.add(new TimeMap(ids.get(index), times.get(index)));
 			times.remove(index);
 			ids.remove(index);
-
 		}
 		return map;
 	}
 
+	// Verordnung holen mit ID
 	public Verordnung getVerordnung(int id) {
 		for (int i = 0; i < verordnungen.size(); i++) {
 			if (verordnungen.get(i).verordnung_id == id) {
@@ -79,13 +83,12 @@ public class Medikationsplan {
 		return null;
 	}
 
+	// Verordnungen für bestimmte Patienten
 	public List<TimeMap> getTimesByPatientID(int id) {
 		List<Integer> times = new ArrayList<Integer>();
 		List<Integer> ids = new ArrayList<Integer>();
-
 		for (int i = 0; i < this.verordnungen.size(); i++) {
 			if (!this.verordnungen.get(i).selbstverordnung) {
-
 				String currentDay = "Montag"; // TODO: getSystemZeit getTag
 				for (int j = 0; j < this.verordnungen.get(i).applikationszeit.size(); j++) {
 					String tag = this.verordnungen.get(i).applikationszeit.get(j).tag;

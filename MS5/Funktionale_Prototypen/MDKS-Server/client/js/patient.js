@@ -3,7 +3,6 @@ $(document).ready(function (e) {
     $("#btn_verordnung_anlegen").click(function () {
         verordnungAnlegen();
     });
-    e.preventDefault();
 });
 
 var patientID;
@@ -37,6 +36,7 @@ function loadPatientDaten() {
     });
 }
 
+// Panel mit Daten füllen
 function buildPanel(data) {
     patientID = data[0].patient_id;
     stationID = data[0].station_id;
@@ -63,12 +63,13 @@ function buildPanel(data) {
     }
 }
 
+// Popup für Verordnung konfigurieren
 function verordnungAnlegen() {
     verordnungStatus = true;
     showPopup("verordnungAnlegen.html");
 }
 
-// füllt den popup mit daten 
+// füllt den Popup mit Daten 
 function fillVerordnungData() {
     $("#td_patientid").html(patientID);
     $("#td_personalid").html(personalID);
@@ -106,26 +107,24 @@ function fillVerordnungData() {
 
 }
 
+// Verordnung speichern
 function saveVerordnung() {
-    var sample = [
-        {
-            "tag": "Montag", "zeiten":
-                    [
-                        {"zeit": "08:00"},
-                        {"zeit": "12:00"},
-                        {"zeit": "16:00"},
-                        {"zeit": "18:00"}
-                    ]
-        }
-    ];
+    
+    // JSON-Repräsentation der Verordnung
     var data = {
         patient_id: patientID,
         personal_id:personalID,
         station_id: stationID,
         medikament_id: medikamentID,
+        dosierung:$("#verordnung_anlegen_dosierung").val(),
+        beginn:$("#verordnung_anlegen_beginn").val(),
+        ende:$("#verordnung_anlegen_ende").val(),
         applikationszeit: []
     };
+    
+    
 
+    // Tage der Applikationszeiten
     var days = [];
     $(".input_verordnung_day").each(function () {
         if ($(this).is(':checked')) {
@@ -154,24 +153,27 @@ function saveVerordnung() {
                 }
         }
     });
-    console.log(days);
-
+    
+    // Zeiten der Applikationszeit
     var times = [];
     $(".verordnung_anlegen_appzeit").each(function () {
         times.push($(this).val());
     });
-    console.log(times);
-
-    for (var i = 0; i < days.length; i++) {
-        data.applikationszeit.push({tag: days[i], zeiten: []});
-        for (var j = 0; j < times.length; j++) {
-            data.applikationszeit[i].zeiten.push({zeit: times[j]});
-        }
-        JSON.stringify(data.applikationszeit[i].zeiten);
-    }
-    JSON.stringify(data.applikationszeit);
-    console.log(JSON.stringify(data).toString());
     
+    var applikationszeit = [];
+    
+    // in JSON pushen
+    for (var i = 0; i < days.length; i++) {
+        var zeiten = [];
+        applikationszeit.push({tag: days[i], zeiten: []});
+        for (var j = 0; j < times.length; j++) {
+            applikationszeit[i].zeiten.push({zeit: times[j]});
+        }  
+    }
+    
+    data.applikationszeit.push(JSON.stringify(applikationszeit));
+    
+    // JSON an Server senden
     $.ajax({
         type: 'POST',
         url: '/verordnung',
@@ -189,12 +191,16 @@ function saveVerordnung() {
     
 }
 
+// Medikationskontrolle vom Server anfordern
 function checkVerordnung() {
+    
+    // JSON mit Medikamentinformationen
     var data = {
         medikamentname: $("#verordnung_anlegen_medikament").val(),
         patientid: patientID
     };
 
+    // an Server senden
     $.ajax({
         type: 'POST',
         url: '/checkInteraction',

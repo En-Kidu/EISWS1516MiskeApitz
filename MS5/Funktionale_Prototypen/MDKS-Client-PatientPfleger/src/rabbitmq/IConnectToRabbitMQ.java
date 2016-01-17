@@ -20,27 +20,24 @@ public abstract class IConnectToRabbitMQ {
 		MyExchangeType = exchangeType;
 	}
 
+	// Verbindung trennen
 	public void Dispose() {
 		Running = false;
 
 		try {
 			if (mModel != null) {
 				mModel.close();
-			}
-			
+			}			
 			if (mConnection != null) {
 				mConnection.close();
 			}
-			
-
-			
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	// Verbindung aufbauen
 	public boolean connectToRabbitMQ() {
 		if (mModel != null && mModel.isOpen()) {
 			return true;

@@ -130,13 +130,16 @@ app.get('/medikamente', function (req, res) {
 });
 
 app.post('/verordnung', function (req, res) {
-    //todo:stringify
+    
+    var stationid = req.body.station_id;
+    var patientid = req.body.patient_id;
+    var benachrichtigung = "Neue Verordnung für Patient "+patientid;
+    
     mysqlconnection = mysqlconnectMDKS();
-    var query = 'INSERT INTO verordnung SET medikament_id = '+req.body.medikament_id+', personal_id = '+req.body.personal_id+', patient_id = '+req.body.patient_id+', station_id = '+req.body.station_id+', applikationszeitpunkt = "'+req.body.applikationszeit+'", selbstverordnung = 0';
-    console.log(query);
-    mysqlconnection.query(query, function (err, rows) {
+    mysqlconnection.query('INSERT INTO verordnung SET medikament_id = ? , personal_id = ?, patient_id = ?, station_id = ?, applikationszeitpunkt = ?, beginn = ?, ende =?, dosierung = ?, selbstverordnung = 0', [req.body.medikament_id, req.body.personal_id, req.body.patient_id, req.body.station_id, req.body.applikationszeit, req.body.beginn, req.body.ende, req.body.dosierung],function (err, rows) {
         if (!err) {
-            console.log(rows);
+            
+            sendBenachrichtigung(stationid,patientid, benachrichtigung);
             res.writeHead(200, {"Content-Type": 'application/json'});
             res.end(JSON.stringify(rows));
         } else {
@@ -201,6 +204,11 @@ app.post('/patient', function (req, res) {
 
 });
 
+///Benachrichtigung
+function sendBenachrichtigung(stationID,patientID,benachrichtigung){
+    exchange.publish(stationID + "."+patientID, benachrichtigung);
+}
+
 //******************** //
 //**** RPC *********** //
 //******************** //
@@ -217,8 +225,6 @@ function handleGET(jsonGet) {
 }
 
 function responseGET(data, queue) {
-    console.log(queue + ".get");
-    console.log(data);
     exchange.publish(queue + ".get", data);
 }
 //getMedikationsplanForStation(1);
